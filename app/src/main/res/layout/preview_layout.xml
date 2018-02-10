@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="android.text.TextUtils" />
+
+        <variable
+            name="isRead"
+            type="boolean" />
+
+        <variable
+            name="imgUrl"
+            type="String" />
+
+        <variable
+            name="model"
+            type="com.lexing360.app.lexingupdate.model.LayoutModel.DataBean" />
+
+
+        <variable
+            name="data"
+            type="com.lexing360.app.lexingupdate.ui.LayoutActivity" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp">
+
+        <FrameLayout
+            android:id="@+id/fl_image"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:visibility="@{TextUtils.isEmpty(imgUrl) ? View.GONE : View.VISIBLE}">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                app:imageUrl="@{imgUrl}" />
+
+            <View
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_gravity="top|end"
+                android:background="@mipmap/point1"
+                android:visibility="@{isRead ? View.GONE : View.VISIBLE}" />
+
+        </FrameLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="11dp"
+            android:layout_toEndOf="@id/fl_image">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true">
+
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_centerVertical="true"
+                    android:background="@mipmap/point1"
+                    android:visibility="@{isRead || !TextUtils.isEmpty(imgUrl) ? View.INVISIBLE : View.VISIBLE}" />
+
+                <TextView
+                    android:id="@+id/text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="5dp"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="@{}"
+                    app:fontColor="@{modle.}"
+                    app:fontType="@{}"
+                    tools:text="X17108061" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="1dp"
+                    android:layout_toEndOf="@id/view"
+                    android:layout_toStartOf="@id/text"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="四驱 LT"
+                    app:fontColor="#ffffff"
+                    app:fontType="@{}"
+                    tools:text="四驱 LT" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="9dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/text1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="5dp"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="@{}"
+                    app:fontColor="@{}"
+                    app:fontType="@{}"
+                    tools:text="9月22日 10:53" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="1dp"
+                    android:layout_toStartOf="@id/text1"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="@{}"
+                    app:fontColor="@{}"
+                    app:fontType="@{}"
+                    tools:text="已有 2 人报价" />
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+</layout>
