@@ -1,18 +1,27 @@
 package com.lexing360.app.lexingupdate;
 
+import com.lexing360.app.lexingupdate.model.JwtModel;
 import com.lexing360.app.lexingupdate.model.LayoutModel;
 import com.lexing360.app.lexingupdate.model.ResponseModel;
+import com.lexing360.app.lexingupdate.model.UpDateModel;
 
 import org.reactivestreams.Subscriber;
+
+import java.util.Map;
 
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 
 /**
  * Created by fenglingfeng on 2018/2/2.
@@ -20,26 +29,10 @@ import retrofit2.http.PUT;
 
 public class Api {
 
-    //当前版本
-    public static String CURRENRT_VERSION = "";
-    //升级到的版本
-    public static String UPDATE_VERSION = "1.2.0";
-    //渠道名称
-    public static String CHANNEL = "app";
-
     public static final String URL_BASE = "http://gateway-dev.lexing360.com/";
-
-    //获取JWT
-    public static final String URL_GET_JWT = URL_BASE + "v1/vendors/auth-by-password";
 
     //更新升级
     public static final String URL_BASE_UPDATE = URL_BASE + "v1/app/versions/";
-
-    //推送更新升级
-    //public static final String URL_PUT_UPDATE = URL_BASE + "v1/app/versions/";
-
-    //更新会话推送布局
-    public static final String URL_GET_LAYOUT = URL_BASE + "v1/messageSettings";
 
 
     public static void subscribe(Flowable flowable, Subscriber subscriber){
@@ -58,6 +51,24 @@ public class Api {
         @GET("v1/messageSettings")
         Call<LayoutModel> getXmlInfo();
 
-    }
+        @FormUrlEncoded
+        @POST("v1/vendors/auth-by-password")
+        Flowable<JwtModel> getJwt(@Field("phone") String phone,
+                                  @Field("password") String password,
+                                  @Field("device_id") String deviceId,
+                                  @Field("device_type") String deviceType);
 
+        @GET("v1/app/versions/{versionnum}/{channel}")
+        Call<UpDateModel> getUpdateUrl(@Path("versionnum") String num,
+                                             @Path("channel") String channel);
+
+
+        @PUT("v1/app/versions/{version}/{channel}")
+        @Headers("Content-Type: application/json")
+        Flowable<ResponseModel> putUpDate(@Header("Authorization") String token,
+                                          @Path("version") String num,
+                                          @Path("channel") String channel,
+                                          @Body String s);
+
+    }
 }

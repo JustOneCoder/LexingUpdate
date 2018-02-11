@@ -1,5 +1,10 @@
 package com.lexing360.app.lexingupdate.model;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+
+import com.lexing360.app.lexingupdate.BR;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -7,14 +12,7 @@ import java.util.List;
  * Created by fenglingfeng on 2018/2/5.
  */
 
-public class LayoutModel implements Serializable{
-
-
-    /**
-     * code : 200
-     * message : 操作成功
-     * data : [{"messageSettingId":1,"redDot":"ONE_DISAPPEAR","avatarUrl":false,"integration":false,"firstLabelOfLineOne":{"fontType":"LARGE","textColor":"#4A4A4A","hide":false},"secondLabelOfLineOne":{"fontType":"SMALL","textColor":"#999999","hide":true},"firstLabelOfLineTwo":{"fontType":"MIDDLE","textColor":"#999999","hide":false},"secondLabelOfLineTwo":{"fontType":"MIDDLE","textColor":"#999999","hide":false},"name":"最新需求","createdAt":null,"updatedAt":"2018-01-31 20:08:08"},{"messageSettingId":2,"redDot":"ONE_DISAPPEAR","avatarUrl":false,"integration":true,"firstLabelOfLineOne":{"fontType":"LARGE","textColor":"#4A4A4A","hide":false},"secondLabelOfLineOne":{"fontType":"MIDDLE","textColor":"#999999","hide":true},"firstLabelOfLineTwo":{"fontType":"SMALL","textColor":"#999999","hide":false},"secondLabelOfLineTwo":{"fontType":"MIDDLE","textColor":"#999999","hide":false},"name":"询价","createdAt":null,"updatedAt":"2018-01-31 20:06:56"},{"messageSettingId":3,"redDot":"ONE_DISAPPEAR","avatarUrl":false,"integration":true,"firstLabelOfLineOne":{"fontType":"LARGE","textColor":"#4A4A4A","hide":false},"secondLabelOfLineOne":{"fontType":"MIDDLE","textColor":"#999999","hide":true},"firstLabelOfLineTwo":{"fontType":"SMALL","textColor":"#999999","hide":false},"secondLabelOfLineTwo":{"fontType":"MIDDLE","textColor":"#999999","hide":false},"name":"报价","createdAt":"2018-01-26 17:56:11","updatedAt":"2018-01-26 17:56:11"}]
-     */
+public class LayoutModel extends BaseObservable implements Serializable{
 
     private int code;
     private String message;
@@ -44,20 +42,7 @@ public class LayoutModel implements Serializable{
         this.data = data;
     }
 
-    public static class DataBean implements Serializable {
-        /**
-         * messageSettingId : 1
-         * redDot : ONE_DISAPPEAR
-         * avatarUrl : false
-         * integration : false
-         * firstLabelOfLineOne : {"fontType":"LARGE","textColor":"#4A4A4A","hide":false}
-         * secondLabelOfLineOne : {"fontType":"SMALL","textColor":"#999999","hide":true}
-         * firstLabelOfLineTwo : {"fontType":"MIDDLE","textColor":"#999999","hide":false}
-         * secondLabelOfLineTwo : {"fontType":"MIDDLE","textColor":"#999999","hide":false}
-         * name : 最新需求
-         * createdAt : null
-         * updatedAt : 2018-01-31 20:08:08
-         */
+    public static class DataBean extends BaseObservable implements Serializable {
 
         private int messageSettingId;
         private String redDot;
@@ -70,10 +55,6 @@ public class LayoutModel implements Serializable{
         private String name;
         private Object createdAt;
         private String updatedAt;
-
-        public int getMessageSettingId() {
-            return messageSettingId;
-        }
 
         public void setMessageSettingId(int messageSettingId) {
             this.messageSettingId = messageSettingId;
@@ -159,7 +140,7 @@ public class LayoutModel implements Serializable{
             this.updatedAt = updatedAt;
         }
 
-        public static class FirstLabelOfLineOneBean implements Serializable{
+        public static class FirstLabelOfLineOneBean extends BaseObservable implements Serializable{
             /**
              * fontType : LARGE
              * textColor : #4A4A4A
@@ -170,32 +151,37 @@ public class LayoutModel implements Serializable{
             private String textColor;
             private boolean hide;
 
+            @Bindable
             public String getFontType() {
                 return fontType;
             }
 
             public void setFontType(String fontType) {
                 this.fontType = fontType;
+                notifyPropertyChanged(BR.fontType);
             }
-
+            @Bindable
             public String getTextColor() {
                 return textColor;
             }
 
             public void setTextColor(String textColor) {
                 this.textColor = textColor;
+                notifyPropertyChanged(BR.textColor);
             }
 
+            @Bindable
             public boolean isHide() {
                 return hide;
             }
 
             public void setHide(boolean hide) {
                 this.hide = hide;
+                notifyPropertyChanged(BR.hide);
             }
         }
 
-        public static class SecondLabelOfLineOneBean implements Serializable{
+        public static class SecondLabelOfLineOneBean extends BaseObservable implements Serializable{
             /**
              * fontType : SMALL
              * textColor : #999999
@@ -206,32 +192,38 @@ public class LayoutModel implements Serializable{
             private String textColor;
             private boolean hide;
 
+            @Bindable
             public String getFontType() {
                 return fontType;
             }
 
             public void setFontType(String fontType) {
                 this.fontType = fontType;
+                notifyPropertyChanged(BR.fontType);
             }
 
+            @Bindable
             public String getTextColor() {
                 return textColor;
             }
 
             public void setTextColor(String textColor) {
                 this.textColor = textColor;
+                notifyPropertyChanged(BR.textColor);
             }
 
+            @Bindable
             public boolean isHide() {
                 return hide;
             }
 
             public void setHide(boolean hide) {
                 this.hide = hide;
+                notifyPropertyChanged(BR.hide);
             }
         }
 
-        public static class FirstLabelOfLineTwoBean implements Serializable{
+        public static class FirstLabelOfLineTwoBean extends BaseObservable implements Serializable{
             /**
              * fontType : MIDDLE
              * textColor : #999999
@@ -242,32 +234,38 @@ public class LayoutModel implements Serializable{
             private String textColor;
             private boolean hide;
 
+            @Bindable
             public String getFontType() {
                 return fontType;
             }
 
             public void setFontType(String fontType) {
                 this.fontType = fontType;
+                notifyPropertyChanged(BR.fontType);
             }
 
+            @Bindable
             public String getTextColor() {
                 return textColor;
             }
 
             public void setTextColor(String textColor) {
                 this.textColor = textColor;
+                notifyPropertyChanged(BR.textColor);
             }
 
+            @Bindable
             public boolean isHide() {
                 return hide;
             }
 
             public void setHide(boolean hide) {
                 this.hide = hide;
+                notifyPropertyChanged(BR.hide);
             }
         }
 
-        public static class SecondLabelOfLineTwoBean implements Serializable{
+        public static class SecondLabelOfLineTwoBean extends BaseObservable implements Serializable{
             /**
              * fontType : MIDDLE
              * textColor : #999999
@@ -278,28 +276,34 @@ public class LayoutModel implements Serializable{
             private String textColor;
             private boolean hide;
 
+            @Bindable
             public String getFontType() {
                 return fontType;
             }
 
             public void setFontType(String fontType) {
                 this.fontType = fontType;
+                notifyPropertyChanged(BR.fontType);
             }
 
+            @Bindable
             public String getTextColor() {
                 return textColor;
             }
 
             public void setTextColor(String textColor) {
                 this.textColor = textColor;
+                notifyPropertyChanged(BR.textColor);
             }
 
+            @Bindable
             public boolean isHide() {
                 return hide;
             }
 
             public void setHide(boolean hide) {
                 this.hide = hide;
+                notifyPropertyChanged(BR.hide);
             }
         }
     }

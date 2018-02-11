@@ -17,11 +17,11 @@ public class BooleanUtils {
 
     public static boolean convertToBoolean(String s) {
         boolean b = false;
-        if (TextUtils.equals(s,"true")) {
-             b = true;
-        }else if (TextUtils.equals(s,"fasle")){
+        if (TextUtils.equals(s, "true") || TextUtils.equals(s, "ONE_DISAPPEAR")) {
+            b = true;
+        } else if (TextUtils.equals(s, "fasle") || TextUtils.equals(s, "ALL_DISAPPEAR")) {
             b = false;
-        }else{
+        } else {
 
         }
         return b;

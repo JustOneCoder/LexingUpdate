@@ -2,6 +2,7 @@ package com.lexing360.app.lexingupdate.ui;
 
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -9,9 +10,9 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.google.gson.Gson;
 import com.lexing360.app.lexingupdate.Api;
 import com.lexing360.app.lexingupdate.BooleanUtils;
+import com.lexing360.app.lexingupdate.MyApplication;
 import com.lexing360.app.lexingupdate.R;
 import com.lexing360.app.lexingupdate.UpDataSubscriber;
 import com.lexing360.app.lexingupdate.base.BaseBindingActivity;
@@ -29,16 +30,14 @@ import retrofit2.Response;
 @Route(path = RouterConstants.LAYOUT)
 public class LayoutActivity extends BaseBindingActivity<ActivityLayoutBinding> implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
 
-    Gson gson;
-
     String name;
     String checkAvatarurl;
     String checkIntegration;
     String redDot;
-    String hide1;
-    String hide2;
-    String hide3;
-    String hide4;
+    boolean hide1;
+    boolean hide2;
+    boolean hide3;
+    boolean hide4;
     String fontType1Str;
     String fontType2Str;
     String fontType3Str;
@@ -55,20 +54,24 @@ public class LayoutActivity extends BaseBindingActivity<ActivityLayoutBinding> i
 
     @Override
     protected void bindData(ActivityLayoutBinding binding, Bundle savedInstanceState) {
-        gson = new Gson();
-        getXmlInfo();
         initListener();
+        getXmlInfo();
 
     }
 
     private void initListener() {
         binding.btPut.setOnClickListener(this);
         binding.rgAvatarurl.setOnCheckedChangeListener(this);
+        binding.rgReddot.setOnCheckedChangeListener(this);
         binding.rgIntegration.setOnCheckedChangeListener(this);
         binding.rgFontType1.setOnCheckedChangeListener(this);
         binding.rgFontType2.setOnCheckedChangeListener(this);
         binding.rgFontType3.setOnCheckedChangeListener(this);
         binding.rgFontType4.setOnCheckedChangeListener(this);
+        binding.rgHide1.setOnCheckedChangeListener(this);
+        binding.rgHide2.setOnCheckedChangeListener(this);
+        binding.rgHide3.setOnCheckedChangeListener(this);
+        binding.rgHide4.setOnCheckedChangeListener(this);
     }
 
     @Override
@@ -122,8 +125,73 @@ public class LayoutActivity extends BaseBindingActivity<ActivityLayoutBinding> i
 
             }
         });
+        binding.textColor1.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
 
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                dataBean.getFirstLabelOfLineOne().setTextColor(s.toString());
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        binding.textColor2.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                dataBean.getSecondLabelOfLineOne().setTextColor(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        binding.textColor3.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                dataBean.getFirstLabelOfLineTwo().setTextColor(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        binding.textColor4.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                dataBean.getSecondLabelOfLineTwo().setTextColor(s.toString());
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        binding.preview.setModel2(dataBean);
     }
 
     public void getChecked() {
@@ -161,19 +229,19 @@ public class LayoutActivity extends BaseBindingActivity<ActivityLayoutBinding> i
         } else {
             binding.rbFontType4Small.setChecked(true);
         }
+
     }
 
     private void getViewValue() {
         name = binding.etName.getText().toString();
-        redDot = binding.etReddot.getText().toString();
         textColor1Str = binding.textColor1.getText().toString();
-        hide1 = binding.etHide1.getText().toString();
         textColor2Str = binding.textColor2.getText().toString();
-        hide2 = binding.etHide2.getText().toString();
         textColor3Str = binding.textColor3.getText().toString();
-        hide3 = binding.etHide3.getText().toString();
         textColor4Str = binding.textColor4.getText().toString();
-        hide4 = binding.etHide4.getText().toString();
+        if (TextUtils.isEmpty(textColor1Str) || TextUtils.isEmpty(textColor1Str) || TextUtils.isEmpty(textColor1Str) || TextUtils.isEmpty(textColor1Str)) {
+            Toast.makeText(this, "请设置颜色", Toast.LENGTH_SHORT).show();
+            return;
+        }
         try {
             messageSettingId = Integer.parseInt(binding.etMessageSettingId.getText().toString());
         } catch (NumberFormatException e) {
@@ -205,6 +273,10 @@ public class LayoutActivity extends BaseBindingActivity<ActivityLayoutBinding> i
     //推送配置
     private void putXmlInfo() {
         setPutInfo();
+        if (TextUtils.isEmpty(textColor1Str) || TextUtils.isEmpty(textColor2Str) || TextUtils.isEmpty(textColor3Str) || TextUtils.isEmpty(textColor4Str)) {
+            Toast.makeText(MyApplication.getInstance(), "请先设置颜色", Toast.LENGTH_SHORT).show();
+            return;
+        }
         if (apiServices == null) {
             return;
         }
@@ -227,22 +299,21 @@ public class LayoutActivity extends BaseBindingActivity<ActivityLayoutBinding> i
         dataBean.setRedDot(redDot);
         dataBean.setAvatarUrl(BooleanUtils.convertToBoolean(checkAvatarurl));
         dataBean.setIntegration(BooleanUtils.convertToBoolean(checkIntegration));
-
         dataBean.getFirstLabelOfLineOne().setTextColor(textColor1Str);
         dataBean.getFirstLabelOfLineOne().setFontType(fontType1Str);
-        dataBean.getFirstLabelOfLineOne().setHide(BooleanUtils.convertToBoolean(hide1));
+        dataBean.getFirstLabelOfLineOne().setHide(hide1);
 
         dataBean.getSecondLabelOfLineOne().setTextColor(textColor2Str);
         dataBean.getSecondLabelOfLineOne().setFontType(fontType2Str);
-        dataBean.getSecondLabelOfLineOne().setHide(BooleanUtils.convertToBoolean(hide2));
+        dataBean.getSecondLabelOfLineOne().setHide(hide2);
 
         dataBean.getFirstLabelOfLineTwo().setTextColor(textColor3Str);
         dataBean.getFirstLabelOfLineTwo().setFontType(fontType3Str);
-        dataBean.getFirstLabelOfLineTwo().setHide(BooleanUtils.convertToBoolean(hide3));
+        dataBean.getFirstLabelOfLineTwo().setHide(hide3);
 
         dataBean.getSecondLabelOfLineTwo().setTextColor(textColor4Str);
         dataBean.getSecondLabelOfLineTwo().setFontType(fontType4Str);
-        dataBean.getSecondLabelOfLineTwo().setHide(BooleanUtils.convertToBoolean(hide4));
+        dataBean.getSecondLabelOfLineTwo().setHide(hide4);
     }
 
 
@@ -294,8 +365,42 @@ public class LayoutActivity extends BaseBindingActivity<ActivityLayoutBinding> i
                 } else {
                     fontType4Str = "SMALL";
                 }
+            } else if (group == binding.rgHide1) {
+                if (checkedId == R.id.rb_hide1_true) {
+                    hide1 = true;
+                } else {
+                    hide1 = false;
+                }
+            } else if (group == binding.rgHide2) {
+                if (checkedId == R.id.rb_hide2_true) {
+                    hide2 = true;
+                } else {
+                    hide2 = false;
+                }
+            } else if (group == binding.rgHide3) {
+                if (checkedId == R.id.rb_hide3_true) {
+                    hide3 = true;
+                } else {
+                    hide3 = false;
+                }
+            } else if (group == binding.rgHide4) {
+                if (checkedId == R.id.rb_hide4_true) {
+                    hide4 = true;
+                } else {
+                    hide4 = false;
+                }
+            }else if (group == binding.rgReddot) {
+                if (checkedId == R.id.rb_reddot_true) {
+                    redDot = binding.rbReddotTrue.getText().toString();
+                } else {
+                    redDot = binding.rbReddotFalse.getText().toString();
+                }
             }
             group.check(checkedId);
+            if (!isFirst) {
+                setPutInfo();
+            }
+
         }
     }
 

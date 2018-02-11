@@ -6,7 +6,7 @@ import java.util.List;
  * Created by fenglingfeng on 2018/2/2.
  */
 
-public class UpDateModel {
+public class UpDateModel extends JsonBean{
 
 
     /**
