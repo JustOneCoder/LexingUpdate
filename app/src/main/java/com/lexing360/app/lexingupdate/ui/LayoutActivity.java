@@ -38,10 +38,10 @@ public class LayoutActivity extends BaseBindingActivity<ActivityLayoutBinding> i
     boolean hide2;
     boolean hide3;
     boolean hide4;
-    String fontType1Str;
-    String fontType2Str;
-    String fontType3Str;
-    String fontType4Str;
+    String fonttypeFitstOne;
+    String fonttypeSecondOne;
+    String fonttypeFirstTwo;
+    String fontTypeSeconeTwo;
     String textColor1Str;
     String textColor2Str;
     String textColor3Str;
@@ -52,22 +52,21 @@ public class LayoutActivity extends BaseBindingActivity<ActivityLayoutBinding> i
     LayoutModel.DataBean dataBean;
     List<LayoutModel.DataBean> data;
 
+
     @Override
     protected void bindData(ActivityLayoutBinding binding, Bundle savedInstanceState) {
         initListener();
         getXmlInfo();
-
     }
 
     private void initListener() {
         binding.btPut.setOnClickListener(this);
         binding.rgAvatarurl.setOnCheckedChangeListener(this);
         binding.rgReddot.setOnCheckedChangeListener(this);
-        binding.rgIntegration.setOnCheckedChangeListener(this);
-        binding.rgFontType1.setOnCheckedChangeListener(this);
-        binding.rgFontType2.setOnCheckedChangeListener(this);
-        binding.rgFontType3.setOnCheckedChangeListener(this);
-        binding.rgFontType4.setOnCheckedChangeListener(this);
+        binding.fonttypeFitstOne.rgFontType.setOnCheckedChangeListener(this);
+        binding.fonttypeSecondOne.rgFontType.setOnCheckedChangeListener(this);
+        binding.fonttypeFirstTwo.rgFontType.setOnCheckedChangeListener(this);
+        binding.fonttypeSecondTwo.rgFontType.setOnCheckedChangeListener(this);
         binding.rgHide1.setOnCheckedChangeListener(this);
         binding.rgHide2.setOnCheckedChangeListener(this);
         binding.rgHide3.setOnCheckedChangeListener(this);
@@ -197,37 +196,37 @@ public class LayoutActivity extends BaseBindingActivity<ActivityLayoutBinding> i
     public void getChecked() {
         String fontType = dataBean.getFirstLabelOfLineOne().getFontType();
         if (fontType.equals("LARGE")) {
-            binding.rbFontType1Large.setChecked(true);
+            binding.fonttypeFitstOne.rbFontTypeLarge.setChecked(true);
         } else if (fontType.equals("LARGE")) {
-            binding.rbFontType1Middle.setChecked(true);
+            binding.fonttypeFitstOne.rbFontTypeMiddle.setChecked(true);
         } else {
-            binding.rbFontType1Small.setChecked(true);
+            binding.fonttypeFitstOne.rbFontTypeSmall.setChecked(true);
         }
         String fontType2 = dataBean.getSecondLabelOfLineOne().getFontType();
         if (fontType2.equals("LARGE")) {
-            binding.rbFontType2Large.setChecked(true);
+            binding.fonttypeSecondOne.rbFontTypeLarge.setChecked(true);
         } else if (fontType.equals("LARGE")) {
-            binding.rbFontType2Middle.setChecked(true);
+            binding.fonttypeSecondOne.rbFontTypeMiddle.setChecked(true);
         } else {
-            binding.rbFontType2Small.setChecked(true);
+            binding.fonttypeSecondOne.rbFontTypeSmall.setChecked(true);
         }
 
         String fontType3 = dataBean.getFirstLabelOfLineTwo().getFontType();
         if (fontType3.equals("LARGE")) {
-            binding.rbFontType3Large.setChecked(true);
+            binding.fonttypeFirstTwo.rbFontTypeLarge.setChecked(true);
         } else if (fontType.equals("LARGE")) {
-            binding.rbFontType3Middle.setChecked(true);
+            binding.fonttypeFirstTwo.rbFontTypeMiddle.setChecked(true);
         } else {
-            binding.rbFontType3Small.setChecked(true);
+            binding.fonttypeFirstTwo.rbFontTypeSmall.setChecked(true);
         }
 
         String fontType4 = dataBean.getSecondLabelOfLineTwo().getFontType();
         if (fontType4.equals("LARGE")) {
-            binding.rbFontType4Large.setChecked(true);
+            binding.fonttypeSecondTwo.rbFontTypeLarge.setChecked(true);
         } else if (fontType.equals("LARGE")) {
-            binding.rbFontType4Middle.setChecked(true);
+            binding.fonttypeSecondTwo.rbFontTypeMiddle.setChecked(true);
         } else {
-            binding.rbFontType4Small.setChecked(true);
+            binding.fonttypeSecondTwo.rbFontTypeSmall.setChecked(true);
         }
 
     }
@@ -248,7 +247,30 @@ public class LayoutActivity extends BaseBindingActivity<ActivityLayoutBinding> i
             messageSettingId = 1;
         }
 
+    }
 
+    private void setPutInfo() {
+        getViewValue();
+        dataBean.setName(name);
+        dataBean.setMessageSettingId(messageSettingId);
+        dataBean.setRedDot(redDot);
+        dataBean.setAvatarUrl(BooleanUtils.convertToBoolean(checkAvatarurl));
+        dataBean.setIntegration(BooleanUtils.convertToBoolean(checkIntegration));
+        dataBean.getFirstLabelOfLineOne().setTextColor(textColor1Str);
+        dataBean.getFirstLabelOfLineOne().setFontType(fonttypeFitstOne);
+        dataBean.getFirstLabelOfLineOne().setHide(hide1);
+
+        dataBean.getSecondLabelOfLineOne().setTextColor(textColor2Str);
+        dataBean.getSecondLabelOfLineOne().setFontType(fonttypeSecondOne);
+        dataBean.getSecondLabelOfLineOne().setHide(hide2);
+
+        dataBean.getFirstLabelOfLineTwo().setTextColor(textColor3Str);
+        dataBean.getFirstLabelOfLineTwo().setFontType(fonttypeFirstTwo);
+        dataBean.getFirstLabelOfLineTwo().setHide(hide3);
+
+        dataBean.getSecondLabelOfLineTwo().setTextColor(textColor4Str);
+        dataBean.getSecondLabelOfLineTwo().setFontType(fontTypeSeconeTwo);
+        dataBean.getSecondLabelOfLineTwo().setHide(hide4);
     }
 
 
@@ -291,32 +313,6 @@ public class LayoutActivity extends BaseBindingActivity<ActivityLayoutBinding> i
         });
     }
 
-
-    private void setPutInfo() {
-        getViewValue();
-        dataBean.setName(name);
-        dataBean.setMessageSettingId(messageSettingId);
-        dataBean.setRedDot(redDot);
-        dataBean.setAvatarUrl(BooleanUtils.convertToBoolean(checkAvatarurl));
-        dataBean.setIntegration(BooleanUtils.convertToBoolean(checkIntegration));
-        dataBean.getFirstLabelOfLineOne().setTextColor(textColor1Str);
-        dataBean.getFirstLabelOfLineOne().setFontType(fontType1Str);
-        dataBean.getFirstLabelOfLineOne().setHide(hide1);
-
-        dataBean.getSecondLabelOfLineOne().setTextColor(textColor2Str);
-        dataBean.getSecondLabelOfLineOne().setFontType(fontType2Str);
-        dataBean.getSecondLabelOfLineOne().setHide(hide2);
-
-        dataBean.getFirstLabelOfLineTwo().setTextColor(textColor3Str);
-        dataBean.getFirstLabelOfLineTwo().setFontType(fontType3Str);
-        dataBean.getFirstLabelOfLineTwo().setHide(hide3);
-
-        dataBean.getSecondLabelOfLineTwo().setTextColor(textColor4Str);
-        dataBean.getSecondLabelOfLineTwo().setFontType(fontType4Str);
-        dataBean.getSecondLabelOfLineTwo().setHide(hide4);
-    }
-
-
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         if (group != null && checkedId > 0) {
@@ -333,37 +329,37 @@ public class LayoutActivity extends BaseBindingActivity<ActivityLayoutBinding> i
                 } else {
                     checkIntegration = "false";
                 }
-            } else if (group == binding.rgFontType1) {
-                if (binding.rgFontType1.getCheckedRadioButtonId() == R.id.rb_fontType1_large) {
-                    fontType1Str = "LARGE";
-                } else if (binding.rgFontType1.getCheckedRadioButtonId() == R.id.rb_fontType1_middle) {
-                    fontType1Str = "MIDDLE";
+            } else if (group == binding.fonttypeFitstOne.rgFontType) {
+                if (group.getCheckedRadioButtonId() == R.id.rb_fontType_large) {
+                    fonttypeFitstOne = "LARGE";
+                } else if (group.getCheckedRadioButtonId() == R.id.rb_fontType_middle) {
+                    fonttypeFitstOne = "MIDDLE";
                 } else {
-                    fontType1Str = "SMALL";
+                    fonttypeFitstOne = "SMALL";
                 }
-            } else if (group == binding.rgFontType2) {
-                if (binding.rgFontType2.getCheckedRadioButtonId() == R.id.rb_fontType2_large) {
-                    fontType2Str = "LARGE";
-                } else if (binding.rgFontType2.getCheckedRadioButtonId() == R.id.rb_fontType2_middle) {
-                    fontType2Str = "MIDDLE";
+            } else if (group == binding.fonttypeSecondOne.rgFontType) {
+                if (group.getCheckedRadioButtonId() == R.id.rb_fontType_large) {
+                    fonttypeSecondOne = "LARGE";
+                } else if (group.getCheckedRadioButtonId() == R.id.rb_fontType_middle) {
+                    fonttypeSecondOne = "MIDDLE";
                 } else {
-                    fontType2Str = "SMALL";
+                    fonttypeSecondOne = "SMALL";
                 }
-            } else if (group == binding.rgFontType3) {
-                if (binding.rgFontType3.getCheckedRadioButtonId() == R.id.rb_fontType3_large) {
-                    fontType3Str = "LARGE";
-                } else if (binding.rgFontType3.getCheckedRadioButtonId() == R.id.rb_fontType3_middle) {
-                    fontType3Str = "MIDDLE";
+            } else if (group == binding.fonttypeFirstTwo.rgFontType) {
+                if (group.getCheckedRadioButtonId() == R.id.rb_fontType_large) {
+                    fonttypeFirstTwo = "LARGE";
+                } else if (group.getCheckedRadioButtonId() == R.id.rb_fontType_middle) {
+                    fonttypeFirstTwo = "MIDDLE";
                 } else {
-                    fontType3Str = "SMALL";
+                    fonttypeFirstTwo = "SMALL";
                 }
-            } else if (group == binding.rgFontType4) {
-                if (binding.rgFontType4.getCheckedRadioButtonId() == R.id.rb_fontType4_large) {
-                    fontType4Str = "LARGE";
-                } else if (binding.rgFontType4.getCheckedRadioButtonId() == R.id.rb_fontType4_middle) {
-                    fontType4Str = "MIDDLE";
+            } else if (group == binding.fonttypeSecondTwo.rgFontType) {
+                if (group.getCheckedRadioButtonId() == R.id.rb_fontType_large) {
+                    fontTypeSeconeTwo = "LARGE";
+                } else if (group.getCheckedRadioButtonId() == R.id.rb_fontType_middle) {
+                    fontTypeSeconeTwo = "MIDDLE";
                 } else {
-                    fontType4Str = "SMALL";
+                    fontTypeSeconeTwo = "SMALL";
                 }
             } else if (group == binding.rgHide1) {
                 if (checkedId == R.id.rb_hide1_true) {
@@ -389,7 +385,7 @@ public class LayoutActivity extends BaseBindingActivity<ActivityLayoutBinding> i
                 } else {
                     hide4 = false;
                 }
-            }else if (group == binding.rgReddot) {
+            } else if (group == binding.rgReddot) {
                 if (checkedId == R.id.rb_reddot_true) {
                     redDot = binding.rbReddotTrue.getText().toString();
                 } else {

@@ -43,8 +43,7 @@
 
                 <TextView
                     style="@style/style_CommonTextView"
-                    android:text="messageSettingId："
-                    android:textSize="18sp" />
+                    android:text="messageSettingId：" />
 
                 <EditText
                     android:id="@+id/et_messageSettingId"
@@ -58,8 +57,7 @@
 
                 <TextView
                     style="@style/style_CommonTextView"
-                    android:text="name："
-                    android:textSize="18sp" />
+                    android:text="name：" />
 
                 <EditText
                     android:id="@+id/et_name"
@@ -71,8 +69,7 @@
 
                 <TextView
                     style="@style/style_CommonTextView"
-                    android:text="redDot："
-                    android:textSize="18sp" />
+                    android:text="redDot：" />
 
                 <RadioGroup
                     android:id="@+id/rg_reddot"
@@ -152,36 +149,11 @@
 
                 <TextView
                     style="@style/style_CommonTextView"
-                    android:layout_marginTop="10dp"
-                    android:text="firstLabelOfLineOne："
-                    android:textSize="18sp" />
+                    android:text="firstLabelOfLineOne：" />
 
-                <RadioGroup
-                    android:id="@+id/rg_fontType1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/rb_fontType1_large"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="LARGE" />
-
-                    <RadioButton
-                        android:id="@+id/rb_fontType1_middle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:text="MIDDLE" />
-
-                    <RadioButton
-                        android:id="@+id/rb_fontType1_small"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:text="SMALL" />
-                </RadioGroup>
+                <include
+                    android:id="@+id/fonttype_fitst_one"
+                    layout="@layout/item_layout_fonttype" />
 
                 <EditText
                     android:id="@+id/textColor1"
@@ -215,36 +187,11 @@
 
                 <TextView
                     style="@style/style_CommonTextView"
-                    android:layout_marginTop="10dp"
-                    android:text="secondLabelOfLineOne："
-                    android:textSize="18sp" />
+                    android:text="secondLabelOfLineOne：" />
 
-                <RadioGroup
-                    android:id="@+id/rg_fontType2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/rb_fontType2_large"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="LARGE" />
-
-                    <RadioButton
-                        android:id="@+id/rb_fontType2_middle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:text="MIDDLE" />
-
-                    <RadioButton
-                        android:id="@+id/rb_fontType2_small"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:text="SMALL" />
-                </RadioGroup>
+                <include
+                    android:id="@+id/fonttype_second_one"
+                    layout="@layout/item_layout_fonttype" />
 
                 <EditText
                     android:id="@+id/textColor2"
@@ -278,36 +225,11 @@
 
                 <TextView
                     style="@style/style_CommonTextView"
-                    android:layout_marginTop="10dp"
-                    android:text="firstLabelOfLineTwo："
-                    android:textSize="18sp" />
+                    android:text="firstLabelOfLineTwo：" />
 
-                <RadioGroup
-                    android:id="@+id/rg_fontType3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/rb_fontType3_large"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="LARGE" />
-
-                    <RadioButton
-                        android:id="@+id/rb_fontType3_middle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:text="MIDDLE" />
-
-                    <RadioButton
-                        android:id="@+id/rb_fontType3_small"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:text="SMALL" />
-                </RadioGroup>
+                <include
+                    android:id="@+id/fonttype_first_two"
+                    layout="@layout/item_layout_fonttype" />
 
                 <EditText
                     android:id="@+id/textColor3"
@@ -335,43 +257,18 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:checked="@{model.firstLabelOfLineTwo.hide?model.firstLabelOfLineTwo.hide == false:model.firstLabelOfLineTwo.hide == false}"
+                        android:checked="@{!model.firstLabelOfLineTwo.hide}"
                         android:text="显示" />
                 </RadioGroup>
 
 
                 <TextView
                     style="@style/style_CommonTextView"
-                    android:layout_marginTop="10dp"
-                    android:text="secondLabelOfLineTwo："
-                    android:textSize="18sp" />
+                    android:text="secondLabelOfLineTwo：" />
 
-                <RadioGroup
-                    android:id="@+id/rg_fontType4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/rb_fontType4_large"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="LARGE" />
-
-                    <RadioButton
-                        android:id="@+id/rb_fontType4_middle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:text="MIDDLE" />
-
-                    <RadioButton
-                        android:id="@+id/rb_fontType4_small"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:text="SMALL" />
-                </RadioGroup>
+                <include
+                    android:id="@+id/fonttype_second_two"
+                    layout="@layout/item_layout_fonttype" />
 
                 <EditText
                     android:id="@+id/textColor4"
@@ -402,7 +299,6 @@
                         android:checked="@{model.secondLabelOfLineTwo.hide?model.secondLabelOfLineTwo.hide == false:model.secondLabelOfLineTwo.hide == false}"
                         android:text="显示" />
                 </RadioGroup>
-
 
                 <TextView
                     android:id="@+id/bt_put"

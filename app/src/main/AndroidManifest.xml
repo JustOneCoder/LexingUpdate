@@ -13,8 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.MainActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan">
+            android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,8 +21,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".base.BaseBindingActivity" />
-        <activity android:name=".ui.LayoutActivity" />
-        <activity android:name=".ui.UpdataActivity"></activity>
+        <activity android:name=".ui.LayoutActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+        <activity android:name=".ui.UpdataActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
     </application>
 
 </manifest>
