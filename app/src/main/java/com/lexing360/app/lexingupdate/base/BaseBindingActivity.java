@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.Gson;
@@ -30,7 +31,6 @@ public abstract class BaseBindingActivity<T extends ViewDataBinding> extends App
         initApiServices();
         binding = DataBindingUtil.setContentView(this, getLayoutId());
         bindData(binding, savedInstanceState);
-
     }
 
     protected abstract void bindData(T binding, Bundle savedInstanceState);
@@ -51,4 +51,5 @@ public abstract class BaseBindingActivity<T extends ViewDataBinding> extends App
                 .build();
         apiServices = retrofit.create(Api.ApiServices.class);
     }
+
 }

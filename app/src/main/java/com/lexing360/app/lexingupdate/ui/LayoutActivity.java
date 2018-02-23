@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -67,10 +68,10 @@ public class LayoutActivity extends BaseBindingActivity<ActivityLayoutBinding> i
         binding.fonttypeSecondOne.rgFontType.setOnCheckedChangeListener(this);
         binding.fonttypeFirstTwo.rgFontType.setOnCheckedChangeListener(this);
         binding.fonttypeSecondTwo.rgFontType.setOnCheckedChangeListener(this);
-        binding.rgHide1.setOnCheckedChangeListener(this);
-        binding.rgHide2.setOnCheckedChangeListener(this);
-        binding.rgHide3.setOnCheckedChangeListener(this);
-        binding.rgHide4.setOnCheckedChangeListener(this);
+        binding.fonttypeFitstOne.rgHide.setOnCheckedChangeListener(this);
+        binding.fonttypeSecondOne.rgHide.setOnCheckedChangeListener(this);
+        binding.fonttypeFirstTwo.rgHide.setOnCheckedChangeListener(this);
+        binding.fonttypeSecondTwo.rgHide.setOnCheckedChangeListener(this);
     }
 
     @Override
@@ -78,6 +79,25 @@ public class LayoutActivity extends BaseBindingActivity<ActivityLayoutBinding> i
         return R.layout.activity_layout;
     }
 
+
+    //获取目前服务器的布局参数
+    private void getXmlInfo() {
+        apiServices.getXmlInfo().enqueue(new Callback<LayoutModel>() {
+            @Override
+            public void onResponse(retrofit2.Call<LayoutModel> call, Response<LayoutModel> response) {
+                data = response.body().getData();
+                initView();
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<LayoutModel> call, Throwable t) {
+                Toast.makeText(LayoutActivity.this, "获取后台参数错误：" + t.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+    }
+
+    //初始化数据，显示服务器返回的最新状态
     private void initView() {
         if (isFirst) {
             dataBean = data.get(0);
@@ -85,114 +105,16 @@ public class LayoutActivity extends BaseBindingActivity<ActivityLayoutBinding> i
             getChecked();
             isFirst = false;
         }
-        binding.etMessageSettingId.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        textColorChangeListener(binding.etMessageSettingId);
+        textColorChangeListener(binding.textColor1);
+        textColorChangeListener(binding.textColor2);
+        textColorChangeListener(binding.textColor3);
+        textColorChangeListener(binding.textColor4);
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s == null || s.length() == 0) {
-                    return;
-                }
-                messageSettingId = Integer.parseInt(s.toString());
-                if (messageSettingId == 1) {
-                    getXmlInfo();
-                    dataBean = data.get(0);
-                    binding.setModel(dataBean);
-                    return;
-                }
-
-                if (messageSettingId == 2) {
-                    getXmlInfo();
-                    dataBean = data.get(1);
-                    binding.setModel(dataBean);
-                    return;
-                }
-
-                if (messageSettingId == 3) {
-                    getXmlInfo();
-                    dataBean = data.get(2);
-                    binding.setModel(dataBean);
-                    return;
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        binding.textColor1.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                dataBean.getFirstLabelOfLineOne().setTextColor(s.toString());
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        binding.textColor2.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                dataBean.getSecondLabelOfLineOne().setTextColor(s.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        binding.textColor3.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                dataBean.getFirstLabelOfLineTwo().setTextColor(s.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        binding.textColor4.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                dataBean.getSecondLabelOfLineTwo().setTextColor(s.toString());
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
         binding.preview.setModel2(dataBean);
     }
 
+    //获取布局中RadioGroup的选中状态并设置
     public void getChecked() {
         String fontType = dataBean.getFirstLabelOfLineOne().getFontType();
         if (fontType.equals("LARGE")) {
@@ -229,18 +151,28 @@ public class LayoutActivity extends BaseBindingActivity<ActivityLayoutBinding> i
             binding.fonttypeSecondTwo.rbFontTypeSmall.setChecked(true);
         }
 
+        if (dataBean.getFirstLabelOfLineOne().isHide()) {
+            binding.fonttypeFitstOne.rbHideTrue.setChecked(true);
+        }
+        if (dataBean.getSecondLabelOfLineOne().isHide()) {
+            binding.fonttypeSecondOne.rbHideTrue.setChecked(true);
+        }
+        if (dataBean.getFirstLabelOfLineTwo().isHide()) {
+            binding.fonttypeFirstTwo.rbHideTrue.setChecked(true);
+        }
+        if (dataBean.getSecondLabelOfLineTwo().isHide()) {
+            binding.fonttypeSecondTwo.rbHideTrue.setChecked(true);
+        }
+
     }
 
+    //获取修改后的EditText的值
     private void getViewValue() {
         name = binding.etName.getText().toString();
         textColor1Str = binding.textColor1.getText().toString();
         textColor2Str = binding.textColor2.getText().toString();
         textColor3Str = binding.textColor3.getText().toString();
         textColor4Str = binding.textColor4.getText().toString();
-        if (TextUtils.isEmpty(textColor1Str) || TextUtils.isEmpty(textColor1Str) || TextUtils.isEmpty(textColor1Str) || TextUtils.isEmpty(textColor1Str)) {
-            Toast.makeText(this, "请设置颜色", Toast.LENGTH_SHORT).show();
-            return;
-        }
         try {
             messageSettingId = Integer.parseInt(binding.etMessageSettingId.getText().toString());
         } catch (NumberFormatException e) {
@@ -249,6 +181,7 @@ public class LayoutActivity extends BaseBindingActivity<ActivityLayoutBinding> i
 
     }
 
+    //设置修改后的布局信息值
     private void setPutInfo() {
         getViewValue();
         dataBean.setName(name);
@@ -273,46 +206,6 @@ public class LayoutActivity extends BaseBindingActivity<ActivityLayoutBinding> i
         dataBean.getSecondLabelOfLineTwo().setHide(hide4);
     }
 
-
-    //获取目前的额布局参数
-    private void getXmlInfo() {
-        apiServices.getXmlInfo().enqueue(new Callback<LayoutModel>() {
-            @Override
-            public void onResponse(retrofit2.Call<LayoutModel> call, Response<LayoutModel> response) {
-                data = response.body().getData();
-                initView();
-            }
-
-            @Override
-            public void onFailure(retrofit2.Call<LayoutModel> call, Throwable t) {
-                Toast.makeText(LayoutActivity.this, "获取后台参数错误：" + t.toString(), Toast.LENGTH_LONG).show();
-            }
-        });
-
-    }
-
-
-    //推送配置
-    private void putXmlInfo() {
-        setPutInfo();
-        if (TextUtils.isEmpty(textColor1Str) || TextUtils.isEmpty(textColor2Str) || TextUtils.isEmpty(textColor3Str) || TextUtils.isEmpty(textColor4Str)) {
-            Toast.makeText(MyApplication.getInstance(), "请先设置颜色", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (apiServices == null) {
-            return;
-        }
-        Flowable<ResponseModel> observable = apiServices.putXmlInfo(dataBean);
-        Api.subscribe(observable, new UpDataSubscriber<ResponseModel>() {
-            @Override
-            public void onSucess(ResponseModel responseModel) {
-                Toast.makeText(LayoutActivity.this, responseModel.getMessage(), Toast.LENGTH_LONG).show();
-                Log.e("666Next", responseModel.getMessage());
-            }
-
-        });
-    }
-
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         if (group != null && checkedId > 0) {
@@ -328,6 +221,12 @@ public class LayoutActivity extends BaseBindingActivity<ActivityLayoutBinding> i
                     checkIntegration = "true";
                 } else {
                     checkIntegration = "false";
+                }
+            }  else if (group == binding.rgReddot) {
+                if (checkedId == R.id.rb_reddot_true) {
+                    redDot = binding.rbReddotTrue.getText().toString();
+                } else {
+                    redDot = binding.rbReddotFalse.getText().toString();
                 }
             } else if (group == binding.fonttypeFitstOne.rgFontType) {
                 if (group.getCheckedRadioButtonId() == R.id.rb_fontType_large) {
@@ -361,35 +260,29 @@ public class LayoutActivity extends BaseBindingActivity<ActivityLayoutBinding> i
                 } else {
                     fontTypeSeconeTwo = "SMALL";
                 }
-            } else if (group == binding.rgHide1) {
-                if (checkedId == R.id.rb_hide1_true) {
+            } else if (group == binding.fonttypeFitstOne.rgHide) {
+                if (checkedId == R.id.rb_hide_true) {
                     hide1 = true;
                 } else {
                     hide1 = false;
                 }
-            } else if (group == binding.rgHide2) {
-                if (checkedId == R.id.rb_hide2_true) {
+            } else if (group == binding.fonttypeSecondOne.rgHide) {
+                if (checkedId == R.id.rb_hide_true) {
                     hide2 = true;
                 } else {
                     hide2 = false;
                 }
-            } else if (group == binding.rgHide3) {
-                if (checkedId == R.id.rb_hide3_true) {
+            } else if (group == binding.fonttypeFirstTwo.rgHide) {
+                if (checkedId == R.id.rb_hide_true) {
                     hide3 = true;
                 } else {
                     hide3 = false;
                 }
-            } else if (group == binding.rgHide4) {
-                if (checkedId == R.id.rb_hide4_true) {
+            } else if (group == binding.fonttypeSecondTwo.rgHide) {
+                if (checkedId == R.id.rb_hide_true) {
                     hide4 = true;
                 } else {
                     hide4 = false;
-                }
-            } else if (group == binding.rgReddot) {
-                if (checkedId == R.id.rb_reddot_true) {
-                    redDot = binding.rbReddotTrue.getText().toString();
-                } else {
-                    redDot = binding.rbReddotFalse.getText().toString();
                 }
             }
             group.check(checkedId);
@@ -400,14 +293,95 @@ public class LayoutActivity extends BaseBindingActivity<ActivityLayoutBinding> i
         }
     }
 
+    public void textColorChangeListener(final EditText et) {
+        et.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (R.id.textColor1 == et.getId()) {
+                    dataBean.getFirstLabelOfLineOne().setTextColor(s.toString());
+                    return;
+                }
+                if (R.id.textColor2 == et.getId()) {
+                    dataBean.getSecondLabelOfLineOne().setTextColor(s.toString());
+                    return;
+                }
+                if (R.id.textColor3 == et.getId()) {
+                    dataBean.getFirstLabelOfLineTwo().setTextColor(s.toString());
+                    return;
+                }
+                if (R.id.textColor4 == et.getId()) {
+                    dataBean.getSecondLabelOfLineTwo().setTextColor(s.toString());
+                    return;
+                }
+                if(R.id.et_messageSettingId == et.getId()){
+                    if (s == null || s.length() == 0) {
+                        return;
+                    }
+                    messageSettingId = Integer.parseInt(s.toString());
+                    if (messageSettingId == 1) {
+                        getXmlInfo();
+                        dataBean = data.get(0);
+                        binding.setModel(dataBean);
+                        return;
+                    }
+
+                    if (messageSettingId == 2) {
+                        getXmlInfo();
+                        dataBean = data.get(1);
+                        binding.setModel(dataBean);
+                        return;
+                    }
+
+                    if (messageSettingId == 3) {
+                        getXmlInfo();
+                        dataBean = data.get(2);
+                        binding.setModel(dataBean);
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
 
     @Override
     public void onClick(View v) {
         putXmlInfo();
     }
 
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
+    //推送修改后的配置
+    private void putXmlInfo() {
+        setPutInfo();
+        if (TextUtils.isEmpty(textColor1Str) || TextUtils.isEmpty(textColor1Str) || TextUtils.isEmpty(textColor1Str) || TextUtils.isEmpty(textColor1Str)) {
+            Toast.makeText(this, "请设置颜色", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (TextUtils.isEmpty(textColor1Str) || TextUtils.isEmpty(textColor2Str) || TextUtils.isEmpty(textColor3Str) || TextUtils.isEmpty(textColor4Str)) {
+            Toast.makeText(MyApplication.getInstance(), "请先设置颜色", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (apiServices == null) {
+            return;
+        }
+        Flowable<ResponseModel> observable = apiServices.putXmlInfo(dataBean);
+        Api.subscribe(observable, new UpDataSubscriber<ResponseModel>() {
+            @Override
+            public void onSucess(ResponseModel responseModel) {
+                Toast.makeText(LayoutActivity.this, responseModel.getMessage(), Toast.LENGTH_LONG).show();
+                Log.e("666Next", responseModel.getMessage());
+            }
 
+        });
     }
+
 }

@@ -145,9 +145,6 @@
                     tools:text="已有 2 人报价"/>
 
             </RelativeLayout>
-
-
         </RelativeLayout>
-
     </RelativeLayout>
 </layout>

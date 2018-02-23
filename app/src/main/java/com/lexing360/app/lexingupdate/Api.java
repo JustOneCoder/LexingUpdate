@@ -3,6 +3,7 @@ package com.lexing360.app.lexingupdate;
 import com.lexing360.app.lexingupdate.model.JwtModel;
 import com.lexing360.app.lexingupdate.model.LayoutModel;
 import com.lexing360.app.lexingupdate.model.ResponseModel;
+import com.lexing360.app.lexingupdate.model.UpDataPutModel;
 import com.lexing360.app.lexingupdate.model.UpDateModel;
 
 import org.reactivestreams.Subscriber;
@@ -29,7 +30,7 @@ import retrofit2.http.Path;
 
 public class Api {
 
-    public static final String URL_BASE = "http://gateway-dev.lexing360.com/";
+    public static final String URL_BASE = "http://gateway-dev.lexing360.com/v1/";
 
     //更新升级
     public static final String URL_BASE_UPDATE = URL_BASE + "v1/app/versions/";
@@ -44,31 +45,30 @@ public class Api {
 
     public interface ApiServices {
 
-        @PUT("v1/messageSettings")
+        @PUT("messageSettings")
         @Headers("Content-Type: application/json")
         Flowable<ResponseModel> putXmlInfo(@Body LayoutModel.DataBean s);
 
-        @GET("v1/messageSettings")
+        @GET("messageSettings")
         Call<LayoutModel> getXmlInfo();
 
         @FormUrlEncoded
-        @POST("v1/vendors/auth-by-password")
+        @POST("vendors/auth-by-password")
         Flowable<JwtModel> getJwt(@Field("phone") String phone,
                                   @Field("password") String password,
                                   @Field("device_id") String deviceId,
                                   @Field("device_type") String deviceType);
 
-        @GET("v1/app/versions/{versionnum}/{channel}")
-        Call<UpDateModel> getUpdateUrl(@Path("versionnum") String num,
+        @GET("app/versions/{version}/{channel}")
+        Call<UpDateModel> getUpdateUrl(@Path("version") String num,
                                              @Path("channel") String channel);
 
 
-        @PUT("v1/app/versions/{version}/{channel}")
-        @Headers("Content-Type: application/json")
+        @PUT("app/versions/{version}/{channel}")
         Flowable<ResponseModel> putUpDate(@Header("Authorization") String token,
                                           @Path("version") String num,
                                           @Path("channel") String channel,
-                                          @Body String s);
+                                          @Body UpDataPutModel s);
 
     }
 }

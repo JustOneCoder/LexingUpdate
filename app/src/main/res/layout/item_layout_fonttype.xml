@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
         <RadioGroup
             android:id="@+id/rg_fontType"
             android:layout_width="match_parent"
@@ -27,4 +33,25 @@
                 android:text="SMALL" />
         </RadioGroup>
 
+        <RadioGroup
+            android:id="@+id/rg_hide"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_hide_true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="隐藏" />
+
+            <RadioButton
+                android:id="@+id/rb_hide_false"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:checked="true"
+                android:text="显示" />
+        </RadioGroup>
+    </LinearLayout>
 </layout>

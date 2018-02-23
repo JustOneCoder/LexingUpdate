@@ -1,6 +1,7 @@
 package com.lexing360.app.lexingupdate.ui;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
@@ -17,6 +18,7 @@ import com.lexing360.app.lexingupdate.base.RouterConstants;
 import com.lexing360.app.lexingupdate.databinding.ActivityUpdataBinding;
 import com.lexing360.app.lexingupdate.model.JwtModel;
 import com.lexing360.app.lexingupdate.model.ResponseModel;
+import com.lexing360.app.lexingupdate.model.UpDataPutModel;
 import com.lexing360.app.lexingupdate.model.UpDateModel;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -39,8 +41,8 @@ public class UpdataActivity extends BaseBindingActivity<ActivityUpdataBinding> i
     String mCurrrentVersion;
     String mUpdateVersion;
     String mChannel = "app";
-    Gson gson;
     String jwt;
+    UpDataPutModel model;
 
     @Override
     protected void bindData(ActivityUpdataBinding binding, Bundle savedInstanceState) {
@@ -95,7 +97,7 @@ public class UpdataActivity extends BaseBindingActivity<ActivityUpdataBinding> i
     //点击进行升级
     public void upDate() {
         if (jwt == null) {
-            Log.e("6662",jwt);
+            //Toast.makeText(this,"请先获取jwt",Toast.LENGTH_SHORT).show();
             getJwt();
         }
         setViewValue();
@@ -118,29 +120,6 @@ public class UpdataActivity extends BaseBindingActivity<ActivityUpdataBinding> i
                 Log.e("666",jwt);
             }
         });
-        /*OkHttpUtils
-                .post()
-                .tag(this)
-                .url(Api.URL_GET_JWT)
-                .addParams("phone", mAccount)
-                .addParams("password", mPassword)
-                .addParams("device_id", "ac1566d9edf44b0299ec0c33d6621153")
-                .addParams("device_type", "Android")
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int i) {
-                        Toast.makeText(UpdataActivity.this, "获取jwt:" + e.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onResponse(String s, int i) {
-                        JwtModel jwtModel = gson.fromJson(s, JwtModel.class);
-                        jwt = jwtModel.getData().getJwt();
-                        Toast.makeText(UpdataActivity.this, "成功：" + jwt, Toast.LENGTH_LONG).show();
-                    }
-                });*/
-
     }
 
     private void getUpdateUrl() {
@@ -158,30 +137,16 @@ public class UpdataActivity extends BaseBindingActivity<ActivityUpdataBinding> i
 
             }
         });
-        /*OkHttpUtils
-                .get()
-                .tag(this)
-                .url(Api.URL_BASE_UPDATE + mCurrrentVersion + "/" + mChannel)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int i) {
-                        Toast.makeText(UpdataActivity.this, "获取升级链接失败:" + e.toString(), Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onResponse(String s, int i) {
-                        Log.e("666", i + s);
-                        putUpDate(s);
-
-                    }
-                });*/
     }
 
     private void putUpDate(String s) {
         String updateUrl = s;
-        Log.e("666", "{\"downloadUrl\":" + '"' + updateUrl + '"' + "}");
-        Flowable<ResponseModel> observable = apiServices.putUpDate(jwt,mCurrrentVersion, mChannel,"{\"downloadUrl\":" + '"' + updateUrl + '"' + "}");
+        if(model == null){
+            model = new UpDataPutModel();
+        }
+        //Log.e("666", "{\"downloadUrl\":" + '"' + updateUrl + '"' + "}");
+        model.setDownloadUrl(updateUrl);
+        Flowable<ResponseModel> observable = apiServices.putUpDate(jwt,mCurrrentVersion, mChannel,model);
         Api.subscribe(observable, new UpDataSubscriber<ResponseModel>() {
             @Override
             public void onSucess(ResponseModel response) {
@@ -189,7 +154,7 @@ public class UpdataActivity extends BaseBindingActivity<ActivityUpdataBinding> i
                 Log.e("6661", response.getMessage());
             }
         });
-       /* OkHttpUtils.put()
+       /*OkHttpUtils.put()
                 .tag(this)
                 .url(Api.URL_BASE_UPDATE + mCurrrentVersion + "/" + mChannel)
                 .addHeader("Authorization", jwt)
