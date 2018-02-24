@@ -6,23 +6,9 @@ package com.lexing360.app.lexingupdate.model;
 
 public class UpDatePutResponseModel {
 
-    /**
-     * code : 200
-     * message : 操作成功
-     * data : {"hide":null,"channel":"app","downloadUrl":"http://ovfiuj23r.bkt.clouddn.com/%E4%B9%90%E7%9B%88%E8%BD%A61.2.0.apk","id":6357113652361024043,"version":"1.2.0"}
-     */
 
-    private int code;
     private String message;
     private DataBean data;
-
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
 
     public String getMessage() {
         return message;
@@ -41,13 +27,6 @@ public class UpDatePutResponseModel {
     }
 
     public static class DataBean {
-        /**
-         * hide : null
-         * channel : app
-         * downloadUrl : http://ovfiuj23r.bkt.clouddn.com/%E4%B9%90%E7%9B%88%E8%BD%A61.2.0.apk
-         * id : 6357113652361024043
-         * version : 1.2.0
-         */
 
         private Object hide;
         private String channel;

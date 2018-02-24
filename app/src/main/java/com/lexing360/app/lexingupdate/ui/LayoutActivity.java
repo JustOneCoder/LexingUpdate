@@ -13,7 +13,6 @@ import android.widget.Toast;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.lexing360.app.lexingupdate.Api;
 import com.lexing360.app.lexingupdate.utils.BooleanUtils;
-import com.lexing360.app.lexingupdate.MyApplication;
 import com.lexing360.app.lexingupdate.R;
 import com.lexing360.app.lexingupdate.UpDataSubscriber;
 import com.lexing360.app.lexingupdate.base.BaseBindingActivity;
@@ -363,11 +362,7 @@ public class LayoutActivity extends BaseBindingActivity<ActivityLayoutBinding> i
     private void putXmlInfo() {
         setPutInfo();
         if (TextUtils.isEmpty(textColor1Str) || TextUtils.isEmpty(textColor1Str) || TextUtils.isEmpty(textColor1Str) || TextUtils.isEmpty(textColor1Str)) {
-            Toast.makeText(this, "请设置颜色", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (TextUtils.isEmpty(textColor1Str) || TextUtils.isEmpty(textColor2Str) || TextUtils.isEmpty(textColor3Str) || TextUtils.isEmpty(textColor4Str)) {
-            Toast.makeText(MyApplication.getInstance(), "请先设置颜色", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "请先填写颜色值", Toast.LENGTH_SHORT).show();
             return;
         }
         if (apiServices == null) {

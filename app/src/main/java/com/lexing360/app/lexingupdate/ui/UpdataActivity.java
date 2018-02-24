@@ -117,7 +117,7 @@ public class UpdataActivity extends BaseBindingActivity<ActivityUpdataBinding> i
         apiServices.getUpdateUrl(mCurrrentVersion,mChannel).enqueue(new Callback<UpDateModel>() {
             @Override
             public void onResponse(retrofit2.Call<UpDateModel> call, Response<UpDateModel> response) {
-                putUpDate(response.body().getData().getUpdateUrl());
+                putUpDate();
             }
 
             @Override
@@ -128,7 +128,7 @@ public class UpdataActivity extends BaseBindingActivity<ActivityUpdataBinding> i
         });
     }
 
-    private void putUpDate(String updateUrl) {
+    private void putUpDate() {
         UpDatePutModel models = new UpDatePutModel();
         models.setDownloadUrl(mUpdateApkUrl);
         Flowable<UpDatePutResponseModel> observable = apiServices.putUpDate(jwt,mUpdateVersion, mChannel,models);

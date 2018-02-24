@@ -44,19 +44,11 @@ public class UpDateModel extends JsonBean{
     }
 
     public static class DataBean {
-        /**
-         * latest : 1.2.0
-         * hasNew : false
-         * updateUrl : http://ovfiuj23r.bkt.clouddn.com/%E4%B9%90%E7%9B%88%E8%BD%A61.2.0.apk
-         * hide : true
-         * banner : [{"imageUrl":"http://ov8d5pfe4.bkt.clouddn.com/FkYYE9zJaL5aC_P9VaFfPFsePLqQ","url":"http://vehicle-dev.lexing360.com/#/share"}]
-         */
 
         private String latest;
         private boolean hasNew;
         private String updateUrl;
         private boolean hide;
-        private List<BannerBean> banner;
 
         public String getLatest() {
             return latest;
@@ -90,38 +82,6 @@ public class UpDateModel extends JsonBean{
             this.hide = hide;
         }
 
-        public List<BannerBean> getBanner() {
-            return banner;
-        }
 
-        public void setBanner(List<BannerBean> banner) {
-            this.banner = banner;
-        }
-
-        public static class BannerBean {
-            /**
-             * imageUrl : http://ov8d5pfe4.bkt.clouddn.com/FkYYE9zJaL5aC_P9VaFfPFsePLqQ
-             * url : http://vehicle-dev.lexing360.com/#/share
-             */
-
-            private String imageUrl;
-            private String url;
-
-            public String getImageUrl() {
-                return imageUrl;
-            }
-
-            public void setImageUrl(String imageUrl) {
-                this.imageUrl = imageUrl;
-            }
-
-            public String getUrl() {
-                return url;
-            }
-
-            public void setUrl(String url) {
-                this.url = url;
-            }
-        }
     }
 }
