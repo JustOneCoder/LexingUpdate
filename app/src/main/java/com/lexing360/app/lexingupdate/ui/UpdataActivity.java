@@ -1,14 +1,12 @@
 package com.lexing360.app.lexingupdate.ui;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.google.gson.Gson;
 import com.lexing360.app.lexingupdate.Api;
 import com.lexing360.app.lexingupdate.R;
 import com.lexing360.app.lexingupdate.SPUtil;
@@ -18,16 +16,12 @@ import com.lexing360.app.lexingupdate.base.RouterConstants;
 import com.lexing360.app.lexingupdate.databinding.ActivityUpdataBinding;
 import com.lexing360.app.lexingupdate.model.JwtModel;
 import com.lexing360.app.lexingupdate.model.ResponseModel;
-import com.lexing360.app.lexingupdate.model.UpDataPutModel;
 import com.lexing360.app.lexingupdate.model.UpDateModel;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lexing360.app.lexingupdate.model.UpDatePutModel;
 
-import java.text.Format;
 import java.util.HashMap;
 
 import io.reactivex.Flowable;
-import okhttp3.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
@@ -42,7 +36,6 @@ public class UpdataActivity extends BaseBindingActivity<ActivityUpdataBinding> i
     String mUpdateVersion;
     String mChannel = "app";
     String jwt;
-    UpDataPutModel model;
 
     @Override
     protected void bindData(ActivityUpdataBinding binding, Bundle savedInstanceState) {
@@ -116,7 +109,7 @@ public class UpdataActivity extends BaseBindingActivity<ActivityUpdataBinding> i
             @Override
             public void onSucess(JwtModel responseModel) {
                 jwt = responseModel.getData().getJwt();
-                Toast.makeText(UpdataActivity.this, "成功：" + jwt, Toast.LENGTH_LONG).show();
+                Toast.makeText(UpdataActivity.this, "成功：" + jwt, Toast.LENGTH_SHORT).show();
                 Log.e("666",jwt);
             }
         });
@@ -127,52 +120,28 @@ public class UpdataActivity extends BaseBindingActivity<ActivityUpdataBinding> i
         apiServices.getUpdateUrl(mCurrrentVersion,mChannel).enqueue(new Callback<UpDateModel>() {
             @Override
             public void onResponse(retrofit2.Call<UpDateModel> call, Response<UpDateModel> response) {
-                Log.e("666", response.body().getMessage());
+                Log.e("666", response.body().getMessage()+response.body().getData().getUpdateUrl());
                 putUpDate(response.body().getData().getUpdateUrl());
             }
 
             @Override
             public void onFailure(retrofit2.Call<UpDateModel> call, Throwable t) {
-                //Toast.makeText(UpdataActivity.this, "获取升级链接失败:" + t.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(UpdataActivity.this, "获取升级链接失败:" + t.toString(), Toast.LENGTH_SHORT).show();
 
             }
         });
     }
 
-    private void putUpDate(String s) {
-        String updateUrl = s;
-        if(model == null){
-            model = new UpDataPutModel();
-        }
-        //Log.e("666", "{\"downloadUrl\":" + '"' + updateUrl + '"' + "}");
-        model.setDownloadUrl(updateUrl);
-        Flowable<ResponseModel> observable = apiServices.putUpDate(jwt,mCurrrentVersion, mChannel,model);
-        Api.subscribe(observable, new UpDataSubscriber<ResponseModel>() {
+    private void putUpDate(String updateUrl) {
+        Log.e("666", "{\"downloadUrl\":" + '"' + updateUrl + '"' + "}");
+        Flowable<ResponseModel> observable = apiServices.putUpDate(jwt,mCurrrentVersion, mChannel,"{\"downloadUrl\":" + '"' + updateUrl + '"' + "}");
+        Api.subscribe(observable, new UpDataSubscriber<UpDatePutModel>() {
             @Override
-            public void onSucess(ResponseModel response) {
-                Toast.makeText(UpdataActivity.this, "put升级:" + response.getMessage(), Toast.LENGTH_LONG).show();
+            public void onSucess(UpDatePutModel response) {
+                Toast.makeText(UpdataActivity.this, "put升级:" + response.getMessage()+">>>"+response.getData().getVersion()+">>>"+response.getData().getDownloadUrl(), Toast.LENGTH_LONG).show();
                 Log.e("6661", response.getMessage());
             }
         });
-       /*OkHttpUtils.put()
-                .tag(this)
-                .url(Api.URL_BASE_UPDATE + mCurrrentVersion + "/" + mChannel)
-                .addHeader("Authorization", jwt)
-                .requestBody("{\"downloadUrl\":" + '"' + updateUrl + '"' + "}")
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int i) {
-                        Toast.makeText(UpdataActivity.this, "put升级:" + e.toString(), Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onResponse(String s, int i) {
-                        ResponseModel responseModel = gson.fromJson(s, ResponseModel.class);
-                        Toast.makeText(UpdataActivity.this, "put升级:" + responseModel.getMessage(), Toast.LENGTH_LONG).show();
-                        Log.e("6661", s);
-                    }
-                });*/
     }
 
     @Override

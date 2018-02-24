@@ -3,12 +3,9 @@ package com.lexing360.app.lexingupdate;
 import com.lexing360.app.lexingupdate.model.JwtModel;
 import com.lexing360.app.lexingupdate.model.LayoutModel;
 import com.lexing360.app.lexingupdate.model.ResponseModel;
-import com.lexing360.app.lexingupdate.model.UpDataPutModel;
 import com.lexing360.app.lexingupdate.model.UpDateModel;
 
 import org.reactivestreams.Subscriber;
-
-import java.util.Map;
 
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -65,10 +62,11 @@ public class Api {
 
 
         @PUT("app/versions/{version}/{channel}")
+        @Headers("Content-Type: application/json")
         Flowable<ResponseModel> putUpDate(@Header("Authorization") String token,
                                           @Path("version") String num,
                                           @Path("channel") String channel,
-                                          @Body UpDataPutModel s);
+                                          @Body String s);
 
     }
 }
