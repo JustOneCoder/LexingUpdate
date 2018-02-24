@@ -27,7 +27,6 @@ public abstract class UpDataSubscriber<T> extends ResourceSubscriber<T> {
                 Toast.makeText(MyApplication.getInstance(), "put" + t.toString(), Toast.LENGTH_LONG).show();
             }
         });
-
     }
 
     @Override

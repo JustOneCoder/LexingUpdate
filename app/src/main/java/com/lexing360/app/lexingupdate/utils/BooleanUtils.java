@@ -1,4 +1,4 @@
-package com.lexing360.app.lexingupdate;
+package com.lexing360.app.lexingupdate.utils;
 
 import android.text.TextUtils;
 

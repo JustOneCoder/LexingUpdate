@@ -5,7 +5,7 @@
 
         <import type="android.view.View" />
 
-        <import type="com.lexing360.app.lexingupdate.BooleanUtils" />
+        <import type="com.lexing360.app.lexingupdate.utils.BooleanUtils" />
 
         <import type="android.text.TextUtils" />
 

@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.lexing360.app.lexingupdate.Api;
-import com.lexing360.app.lexingupdate.BooleanUtils;
+import com.lexing360.app.lexingupdate.utils.BooleanUtils;
 import com.lexing360.app.lexingupdate.MyApplication;
 import com.lexing360.app.lexingupdate.R;
 import com.lexing360.app.lexingupdate.UpDataSubscriber;

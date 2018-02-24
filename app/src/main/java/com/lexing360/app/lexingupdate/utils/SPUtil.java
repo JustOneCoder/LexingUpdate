@@ -1,4 +1,4 @@
-package com.lexing360.app.lexingupdate;
+package com.lexing360.app.lexingupdate.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -23,6 +23,7 @@ public class SPUtil {
     public static final String CURRENT_VERSION = "user";
     public static final String UPDATE_VERSION = "speech";
     public static final String CHANNEL = "update";
+    public static final String UPDATE_APK_URL = "url";
 
 
     public static void putString(Context context, String key, String value) {

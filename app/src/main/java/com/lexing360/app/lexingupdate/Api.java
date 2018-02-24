@@ -2,8 +2,10 @@ package com.lexing360.app.lexingupdate;
 
 import com.lexing360.app.lexingupdate.model.JwtModel;
 import com.lexing360.app.lexingupdate.model.LayoutModel;
+import com.lexing360.app.lexingupdate.model.UpDatePutModel;
 import com.lexing360.app.lexingupdate.model.ResponseModel;
 import com.lexing360.app.lexingupdate.model.UpDateModel;
+import com.lexing360.app.lexingupdate.model.UpDatePutResponseModel;
 
 import org.reactivestreams.Subscriber;
 
@@ -30,7 +32,7 @@ public class Api {
     public static final String URL_BASE = "http://gateway-dev.lexing360.com/v1/";
 
     //更新升级
-    public static final String URL_BASE_UPDATE = URL_BASE + "v1/app/versions/";
+    public static final String URL_BASE_UPDATE = URL_BASE + "app/versions/";
 
 
     public static void subscribe(Flowable flowable, Subscriber subscriber){
@@ -60,13 +62,12 @@ public class Api {
         Call<UpDateModel> getUpdateUrl(@Path("version") String num,
                                              @Path("channel") String channel);
 
-
-        @PUT("app/versions/{version}/{channel}")
         @Headers("Content-Type: application/json")
-        Flowable<ResponseModel> putUpDate(@Header("Authorization") String token,
-                                          @Path("version") String num,
-                                          @Path("channel") String channel,
-                                          @Body String s);
+        @PUT("app/versions/{version}/{channel}")
+        Flowable<UpDatePutResponseModel> putUpDate(@Header("Authorization") String token,
+                                                   @Path("version") String num,
+                                                   @Path("channel") String channel,
+                                                   @Body UpDatePutModel s);
 
     }
 }

@@ -36,13 +36,6 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true" />
 
-            <Button
-                android:id="@+id/bt_jwt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="获取jwt" />
-
             <TextView
                 style="@style/style_CommonTextView"
                 android:text="当前版本号:" />
@@ -59,6 +52,16 @@
 
             <EditText
                 android:id="@+id/et_update_version"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true" />
+
+            <TextView
+                style="@style/style_CommonTextView"
+                android:text="最新apk地址链接:" />
+
+            <EditText
+                android:id="@+id/et_update_apk_url"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true" />

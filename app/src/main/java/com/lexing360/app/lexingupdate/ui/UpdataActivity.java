@@ -9,15 +9,15 @@ import android.widget.Toast;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.lexing360.app.lexingupdate.Api;
 import com.lexing360.app.lexingupdate.R;
-import com.lexing360.app.lexingupdate.SPUtil;
 import com.lexing360.app.lexingupdate.UpDataSubscriber;
 import com.lexing360.app.lexingupdate.base.BaseBindingActivity;
 import com.lexing360.app.lexingupdate.base.RouterConstants;
 import com.lexing360.app.lexingupdate.databinding.ActivityUpdataBinding;
 import com.lexing360.app.lexingupdate.model.JwtModel;
-import com.lexing360.app.lexingupdate.model.ResponseModel;
-import com.lexing360.app.lexingupdate.model.UpDateModel;
 import com.lexing360.app.lexingupdate.model.UpDatePutModel;
+import com.lexing360.app.lexingupdate.model.UpDateModel;
+import com.lexing360.app.lexingupdate.model.UpDatePutResponseModel;
+import com.lexing360.app.lexingupdate.utils.SPUtil;
 
 import java.util.HashMap;
 
@@ -36,6 +36,7 @@ public class UpdataActivity extends BaseBindingActivity<ActivityUpdataBinding> i
     String mUpdateVersion;
     String mChannel = "app";
     String jwt;
+    String mUpdateApkUrl;
 
     @Override
     protected void bindData(ActivityUpdataBinding binding, Bundle savedInstanceState) {
@@ -51,8 +52,8 @@ public class UpdataActivity extends BaseBindingActivity<ActivityUpdataBinding> i
         binding.etAccount.setText(SPUtil.getString(this, SPUtil.ACCOUNT));
         binding.etPassword.setText(SPUtil.getString(this, SPUtil.PASSWORD));   //默认初始密码
         binding.etCurrrentVersion.setText(SPUtil.getString(this, SPUtil.CURRENT_VERSION));
+        binding.etUpdateApkUrl.setText(SPUtil.getString(this, SPUtil.UPDATE_APK_URL));
         binding.etUpdateVersion.setText(SPUtil.getString(this, SPUtil.UPDATE_VERSION));
-        binding.btJwt.setOnClickListener(this);
         binding.btUpDate.setOnClickListener(this);
         binding.rgChannelInner.setOnCheckedChangeListener(this);
         binding.rgChannelOut.setOnCheckedChangeListener(this);
@@ -64,21 +65,19 @@ public class UpdataActivity extends BaseBindingActivity<ActivityUpdataBinding> i
         mPassword = binding.etPassword.getText().toString();
         mCurrrentVersion = binding.etCurrrentVersion.getText().toString();
         mUpdateVersion = binding.etUpdateVersion.getText().toString();
+        mUpdateApkUrl = binding.etUpdateApkUrl.getText().toString();
         //存值
         SPUtil.putString(this, SPUtil.ACCOUNT, mAccount);
         SPUtil.putString(this, SPUtil.PASSWORD, mPassword);
         SPUtil.putString(this, SPUtil.CURRENT_VERSION, mCurrrentVersion);
         SPUtil.putString(this, SPUtil.UPDATE_VERSION, mUpdateVersion);
         SPUtil.putString(this, SPUtil.CHANNEL, mChannel);
+        SPUtil.putString(this, SPUtil.UPDATE_APK_URL, mUpdateApkUrl);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.bt_jwt:
-                getJwt();
-                break;
-
             case R.id.bt_upDate:
                 upDate();
                 break;
@@ -110,17 +109,14 @@ public class UpdataActivity extends BaseBindingActivity<ActivityUpdataBinding> i
             public void onSucess(JwtModel responseModel) {
                 jwt = responseModel.getData().getJwt();
                 Toast.makeText(UpdataActivity.this, "成功：" + jwt, Toast.LENGTH_SHORT).show();
-                Log.e("666",jwt);
             }
         });
     }
-
     private void getUpdateUrl() {
         Log.e("666", Api.URL_BASE_UPDATE + mCurrrentVersion + "/" + mChannel);
         apiServices.getUpdateUrl(mCurrrentVersion,mChannel).enqueue(new Callback<UpDateModel>() {
             @Override
             public void onResponse(retrofit2.Call<UpDateModel> call, Response<UpDateModel> response) {
-                Log.e("666", response.body().getMessage()+response.body().getData().getUpdateUrl());
                 putUpDate(response.body().getData().getUpdateUrl());
             }
 
@@ -133,13 +129,13 @@ public class UpdataActivity extends BaseBindingActivity<ActivityUpdataBinding> i
     }
 
     private void putUpDate(String updateUrl) {
-        Log.e("666", "{\"downloadUrl\":" + '"' + updateUrl + '"' + "}");
-        Flowable<ResponseModel> observable = apiServices.putUpDate(jwt,mCurrrentVersion, mChannel,"{\"downloadUrl\":" + '"' + updateUrl + '"' + "}");
-        Api.subscribe(observable, new UpDataSubscriber<UpDatePutModel>() {
+        UpDatePutModel models = new UpDatePutModel();
+        models.setDownloadUrl(mUpdateApkUrl);
+        Flowable<UpDatePutResponseModel> observable = apiServices.putUpDate(jwt,mUpdateVersion, mChannel,models);
+        Api.subscribe(observable, new UpDataSubscriber<UpDatePutResponseModel>() {
             @Override
-            public void onSucess(UpDatePutModel response) {
+            public void onSucess(UpDatePutResponseModel response) {
                 Toast.makeText(UpdataActivity.this, "put升级:" + response.getMessage()+">>>"+response.getData().getVersion()+">>>"+response.getData().getDownloadUrl(), Toast.LENGTH_LONG).show();
-                Log.e("6661", response.getMessage());
             }
         });
     }
@@ -175,7 +171,6 @@ public class UpdataActivity extends BaseBindingActivity<ActivityUpdataBinding> i
                 }
             }
             group.check(checkedId);
-            Log.e("666", mChannel);
         }
     }
 
